@@ -1,25 +1,8 @@
-const { Pool, Client } = require('pg')
-const pool = new Pool({
-  user: 'root',
-  database: 'mydb',
-  password: '',
-  port: 3000,
-})
+require('dotenv').config({ path: '.env' });
+const { Pool } = require('pg');
 
-pool.query('SELECT NOW()', (err, res) => {
-  console.log(err, res)
-  pool.end()
-})
+const connectionString = `postgresql://${process.env.PG_USER}:${process.env.PG_PASSWORD}@${process.env.PG_HOST}:${process.env.PG_PORT}/${process.env.PG_DATABASE}`;
 
-const client = new Client({
-  user: 'root',
-  database: 'mydb',
-  password: '',
-  port: 3000,
-})
+const pool = new Pool({ connectionString: connectionString });
 
-client.connect()
-client.query('SELECT NOW()', (err, res) => {
-  console.log(err, res)
-  client.end()
-})
+module.exports = pool;

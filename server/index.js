@@ -12,18 +12,18 @@ app.listen(PORT, () => {
 });
 
 app.get('/reviews', async (req, res) => {
-  let result = await db.getReviews();
+  let result = await db.getReviews(page = 1, count = 50, id = 2);
   res.status(200).send(result);
 });
 
-// app.get('/reviews/meta', (req, res) => {
-//   db.getMeta(req.query, (err, result) => {
-//     if (err) {
-//       console.log(err);
-//       res.sendStatus(404);
-//     } else {
-//       res.status(200).send(result);
-//     }
-//   });
-// });
+app.get('/reviews/meta', async (req, res) => {
+  let result = await db.getMeta(id = 2);
+  res.status(200).send(result);
+});
+
+app.post('/reviews', async (req, res) => {
+
+})
+
+
 

@@ -6,7 +6,7 @@ const connectionString = `postgresql://${process.env.PG_USER}:${process.env.PG_P
 const pool = new Pool({ connectionString: connectionString });
 
 const db = {
-  getReviews: async (page = 1, limit = 50, id = 2) => {
+  getReviews: async (page, limit, id) => {
     const start = (page - 1) * limit;
     const end = start + limit;
     const productId = id
@@ -21,18 +21,45 @@ const db = {
     `;
     let data = await pool.query(sql);
     return data.rows;
-  }
+  },
 
-  // getMeta: async (id) => {
-  //   const sql = `
-  //   SELECT *
-  //   FROM reviews
-  //   WHERE product_id = ${id} AND id > ${start} AND id <= ${end}
-  //   order by helpfulness
-  //   `;
-  //   let data = await pool.query(sql);
-  //   return data.rows;
-  // }
+  getMeta: async (id) => {
+    const sql = `
+    SELECT
+    json_build_object(
+      1, (SELECT COUNT(reviews.rating) FROM reviews WHERE reviews.product_id = ${id} AND reviews.rating = 1),
+      2, (SELECT COUNT(reviews.rating) FROM reviews WHERE reviews.product_id = ${id} AND reviews.rating = 2),
+      3, (SELECT COUNT(reviews.rating) FROM reviews WHERE reviews.product_id = ${id} AND reviews.rating = 3),
+      4, (SELECT COUNT(reviews.rating) FROM reviews WHERE reviews.product_id = ${id} AND reviews.rating = 4),
+      5, (SELECT COUNT(reviews.rating) FROM reviews WHERE reviews.product_id = ${id} AND reviews.rating = 5)
+    )ratings,
+    json_build_object(
+      0, (SELECT COUNT(reviews.recommend) FROM reviews WHERE reviews.product_id = ${id} AND reviews.recommend = false),
+      1, (SELECT COUNT(reviews.recommend) FROM reviews WHERE reviews.product_id = ${id} AND reviews.recommend = true)
+    )recommended,
+    json_object_agg(
+      characteristics.name,
+        json_build_object(
+          'id', characteristics.id,
+          'value', (SELECT AVG (CAST(characteristic_reviews.value as Float)) FROM characteristic_reviews
+            WHERE characteristic_reviews.characteristic_id = characteristics.id
+          )
+      )
+    )characteristic FROM characteristics WHERE characteristics.product_id = ${id}`;
+
+    let data = await pool.query(sql);
+    return data.rows;
+  },
+
+  postReview: async (review) => {
+    const sql = `INSERT INTO reviews
+    (product_id, rating, summary, body, recommend, reported, reviewer_name, reviewer_email, helpfulness)
+    VALUES (${review.product_id}, ${review.rating}, '${review.summary}', '${review.body}', ${review.recommend}, false, '${review.name}', '${review.email}', 0)
+    RETURNING id `;
+
+    let data = await pool.query(sql);
+    return data;
+  }
 }
 
 module.exports = { pool, db };

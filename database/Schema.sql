@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS characteristic_reviews (
   value INTEGER
 );
 
-COPY characteristic_reviews FROM '/Users/meganwolf/HackReactor/SDC Project/api-reviews/csv/characteristic_reviews.csv' DELIMITER ',' CSV HEADER;
+COPY characteristic_reviews FROM '/Users/meganwolf/HackReactor/SDC/api-reviews/csv/characteristic_reviews.csv' DELIMITER ',' CSV HEADER;
 CREATE INDEX review_idx on characteristic_reviews (review_id);
 
 -- Reviews --
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS reviews (
   helpfulness INTEGER
 );
 
-COPY reviews FROM '/Users/meganwolf/HackReactor/SDC Project/api-reviews/csv/reviews.csv' DELIMITER ',' CSV HEADER;
+COPY reviews FROM '/Users/meganwolf/HackReactor/SDC/api-reviews/csv/reviews.csv' DELIMITER ',' CSV HEADER;
 CREATE INDEX product_idx on reviews (product_id);
 
 -- Review Photos --
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS reviews_photos (
   url VARCHAR
 );
 
-COPY reviews_photos FROM '/Users/meganwolf/HackReactor/SDC Project/api-reviews/csv/reviews_photos.csv' DELIMITER ',' CSV HEADER;
+COPY reviews_photos FROM '/Users/meganwolf/HackReactor/SDC/api-reviews/csv/reviews_photos.csv' DELIMITER ',' CSV HEADER;
 CREATE INDEX reviewPhoto_idx on reviews_photos (review_id);
 
 -- Characteristics --
@@ -53,6 +53,6 @@ CREATE TABLE IF NOT EXISTS characteristics (
   name VARCHAR(50)
 );
 
-COPY characteristics FROM '/Users/meganwolf/HackReactor/SDC Project/api-reviews/csv/characteristics.csv' DELIMITER ',' CSV HEADER;
+COPY characteristics FROM '/Users/meganwolf/HackReactor/SDC/api-reviews/csv/characteristics.csv' DELIMITER ',' CSV HEADER;
 CREATE INDEX productChar_idx on characteristics (product_id);
 

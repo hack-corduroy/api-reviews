@@ -12,12 +12,18 @@ app.listen(PORT, () => {
 });
 
 app.get('/reviews', async (req, res) => {
-  let result = await db.getReviews(page = 1, count = 50, id = 2);
+  const page = parseInt(req.query.page) || 1;
+  const count = parseInt(req.query.count) || 50;
+  const id = req.params.id|| 2;
+
+  let result = await db.getReviews(page, count, id);
   res.status(200).send(result);
 });
 
 app.get('/reviews/meta', async (req, res) => {
-  let result = await db.getMeta(id = 2);
+  const id = req.params.id|| 2;
+
+  let result = await db.getMeta(id);
   res.status(200).send(result);
 });
 

@@ -55,11 +55,25 @@ const db = {
     const sql = `INSERT INTO reviews
     (product_id, rating, summary, body, recommend, reported, reviewer_name, reviewer_email, helpfulness)
     VALUES (${review.product_id}, ${review.rating}, '${review.summary}', '${review.body}', ${review.recommend}, false, '${review.name}', '${review.email}', 0)
-    RETURNING id `;
+    RETURNING id`;
+
+    let data = await pool.query(sql);
+    return data;
+  },
+
+  addHelpfulness: async (id) => {
+    const sql = `UPDATE reviews SET helpfulness = helpfulness + 1 WHERE id = ${id}`;
+
+    let data = await pool.query(sql);
+    return data;
+  },
+
+  reportReview: async (id) => {
+    const sql = `UPDATE reviews SET reported = true WHERE id = ${id}`;
 
     let data = await pool.query(sql);
     return data;
   }
-}
+};
 
 module.exports = { pool, db };

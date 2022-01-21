@@ -22,7 +22,8 @@ app.get('/reviews/meta', async (req, res) => {
 });
 
 app.post('/reviews', async (req, res) => {
-
+  let result = await db.postReview(req);
+  res.status(200).send(result);
 })
 
 

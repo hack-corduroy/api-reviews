@@ -20,7 +20,8 @@ const db = {
     WHERE product_id= ${productId} AND reviews.reported=false AND reviews.id > ${start} AND reviews.id <= ${end} GROUP BY reviews.id
     `;
 
-    return await pool.query(sql);
+    let data = await pool.query(sql)
+    return data.rows;
   },
 
   getMeta: async (id) => {
@@ -47,7 +48,8 @@ const db = {
       )
     )characteristic FROM characteristics WHERE characteristics.product_id = ${id}`;
 
-    return await pool.query(sql);
+    let data = await pool.query(sql)
+    return data.rows;
   },
 
   postReview: async (review) => {
@@ -56,19 +58,36 @@ const db = {
     VALUES (${review.product_id}, ${review.rating}, '${review.summary}', '${review.body}', ${review.recommend}, false, '${review.name}', '${review.email}', 0)
     RETURNING id`;
 
-    return await pool.query(sql);
+    let data = await pool.query(sql)
+    return data.rows;
+  },
+
+  postPhotos: async (photo, id) => {
+    const sql = `INSERT INTO reviews_photos (review_id, url) VALUES ('${id}', '${photo}')`;
+
+    let data = await pool.query(sql);
+    return data.rows;
+  },
+
+  postCharacteristics: async (char, value, id) => {
+    const sql = `INSERT INTO characteristic_reviews (characteristic_id, review_id, value) VALUES '${char}', '${id}', '${value}'`;
+
+    let data = await pool.query(sql);
+    return data.rows;
   },
 
   addHelpfulness: async (id) => {
     const sql = `UPDATE reviews SET helpfulness = helpfulness + 1 WHERE id = ${id}`;
 
-    return await pool.query(sql);
+    let data = await pool.query(sql)
+    return data.rows;
   },
 
   reportReview: async (id) => {
     const sql = `UPDATE reviews SET reported = true WHERE id = ${id}`;
 
-    return await pool.query(sql);
+    let data = await pool.query(sql)
+    return data.rows;
   }
 };
 

@@ -28,9 +28,20 @@ app.get('/reviews/meta', async (req, res) => {
 });
 
 app.post('/reviews', async (req, res) => {
+  const { photos, characteristics } = req.body;
 
-  let result = await db.postReview(req);
+  let result = await db.postReview(req.body);
   res.status(200).send(result);
+    .then(({rows}) => {
+      let id = rows[0].id;
+      let photoMap = photos.map((photo) => {
+        return db.postPhotos(photo, id);
+      });
+      return Promise.all(photoMap);
+    })
+    .then(() => {
+
+    })
 });
 
 

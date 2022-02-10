@@ -29,6 +29,6 @@ Cons:
  - Scalability
 
 ## Schema Design
-![Schema]()
+![Schema](Screen Shot 2022-02-09 at 8.58.06 PM.png)
 
 

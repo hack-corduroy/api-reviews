@@ -29,6 +29,6 @@ Cons:
  - Scalability
 
 ## Schema Design
-![Schema](./Schema)
+![Schema](./Schema.png)
 
 

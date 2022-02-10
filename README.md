@@ -7,3 +7,6 @@
 4. No loss of uptime when cutting over from legacy API to new service
 5. All DB queries should execute in <50ms
 6. Implement logging for service
+
+## Database Selection
+I explored both PostgreSQL and MongoDB as potential database management systems. After weighing the pros and cons, I ultimately decided to use PostgreSQL. 

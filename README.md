@@ -10,3 +10,23 @@
 
 ## Database Selection
 I explored both PostgreSQL and MongoDB as potential database management systems. After weighing the pros and cons, I ultimately decided to use PostgreSQL. 
+
+### PostgreSQL
+Pros: 
+ - Scalability
+ - Speed
+ - Query Ability
+
+Cons: 
+ - Slower to implement
+
+### MongoDB
+Pros:
+ - Faster to implement
+
+Cons:
+ - Speed
+ - Scalability
+
+
+

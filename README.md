@@ -28,5 +28,7 @@ Cons:
  - Speed
  - Scalability
 
+## Schema Design
+![Schema]()
 
 
